@@ -413,20 +413,18 @@ class PayrollController extends Controller
 
         public function storeBonus(Request $request)
         {
+            $bonusCount = Bonuse::where('start_date', $request->period_from)->where('end_date', $request->period_to)->count();
 
-
+            if ($bonusCount != 0) {
+                return redirect()->back()->with('error', 'Your Bonus Already Added For This Period!');
+            } else {
                 for ($i = 0; $i < count($request->user_id); $i++) {
-                        $bonus_start = $request->period_from[$i];
-                        $bonus_end = $request->period_to[$i];
+                    $bonus_start = $request->period_from[$i];
+                    $bonus_end = $request->period_to[$i];
                         
 
-                        $bonusCount = Bonuse::where('start_date', $bonus_start)->where('end_date', $bonus_end)->count();
 
-                        if ($bonusCount == 0) {
-                                return redirect()->back()->with('error', 'Your Bonus Already Added For This Period!');
-                        }
-
-                        Bonuse::create([
+                    Bonuse::create([
                                 'user_id'  => $request->user_id[$i],
                                 'name'     => $request->first_name[$i] . ' ' . $request->last_name[$i],
                                 'sttsus' => 0,
@@ -436,8 +434,8 @@ class PayrollController extends Controller
                         ]);
                 }
                 return redirect()->back()->with('message', 'Your Bonus Add Successfully!');
+            }
         }
-
         public function payrol_proceed(Request $request)
         {
                 $user_id = $request->user_id;
