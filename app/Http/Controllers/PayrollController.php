@@ -418,11 +418,11 @@ class PayrollController extends Controller
                 for ($i = 0; $i < count($request->user_id); $i++) {
                         $bonus_start = $request->period_from[$i];
                         $bonus_end = $request->period_to[$i];
-                        $flag = false;
+                        
 
                         $bonusCount = Bonuse::where('start_date', $bonus_start)->where('end_date', $bonus_end)->count();
 
-                        if ($bonusCount > 0) {
+                        if ($bonusCount == 0) {
                                 return redirect()->back()->with('error', 'Your Bonus Already Added For This Period!');
                         }
 
