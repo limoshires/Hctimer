@@ -96,7 +96,7 @@
 
      <li class=" nav-item"><a href="#"><i class="feather icon-layout"></i><span class="menu-title" data-i18n="Content">Holidays</span></a>
                     <ul class="menu-content">
-                        <li><a href="{{url('admin/sick-leave')}}"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Grid">Sick Leave</span></a>
+                        <li class={{ Request::is('admin/sick-leave')? 'active' : '' }}><a href="{{url('admin/sick-leave')}}"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Grid">Sick Leave</span></a>
                         </li>
                         <li><a href="{{url('admin/vacation-leave')}}"><i class="feather icon-circle"></i><span class="menu-item" data-i18n="Grid">Vacation  Leave</span></a>
                         </li>
@@ -106,7 +106,12 @@
                     </ul>
                 </li>  
 
-
+<li class={{ Request::is('admin/notices')? 'active' : '' }}>
+                    <a href="{{url('admin/notices')}}">
+                        <i class="feather icon-list"></i>
+                        <span class="menu-title" data-i18n="services">Notices</span>
+                    </a>
+                </li>
 
 
 

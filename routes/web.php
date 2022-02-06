@@ -5,6 +5,8 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\SickLeaveController;
+use App\Http\Controllers\NoticeController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -100,6 +102,11 @@ Route::prefix('admin')->middleware('admin')->namespace('App\\Http\\Controllers\\
     Route::get('deduction', 'AdminController@deduction')->name('deduction');
 });
 
+//notices
+Route::get('admin/notices', [NoticeController::class, 'Notices'])->middleware('admin');
+Route::get('admin/notice/{id}', [NoticeController::class, 'NoticesDelete'])->middleware('admin');
+Route::post('admin/add/notices', [NoticeController::class, 'AddNotices'])->middleware('admin');
+Route::post('admin/edit/notices', [NoticeController::class, 'EditNotices'])->middleware('admin');
 
 Route::get('admin/bonus', [PayrollController::class, 'Addbonus'])->name('bonus');
 Route::post('store/Bonus', [PayrollController::class, 'storeBonus'])->name('storeboubus');
@@ -134,6 +141,8 @@ Route::prefix('employee')->namespace('App\\Http\\Controllers\\Employee')->group(
     Route::get('user_processed_payroll', 'EmployeeController@user_processed_payroll')->name('employee.user_processed_payroll');
     Route::get('user_processed_payroll', 'EmployeeController@user_processed_payroll')->name('employee.user_processed_payroll');
 });
+
+
 
 Route::get('employee/sick-leave', [SickLeaveController::class, 'sick_leave']);
 Route::get('employee/vacation-leave', [SickLeaveController::class, 'vacation_leave']);

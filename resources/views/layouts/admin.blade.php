@@ -97,6 +97,7 @@
     <script src="../../../app-assets/vendors/js/tables/datatable/datatables.bootstrap4.min.js"></script>
     <script src="{{ asset('app-assets/js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('app-assets/js/masking-input.js') }}"  data-autoinit="true"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10/dist/sweetalert2.min.js"></script>
 
     <script src="{{ asset('app-assets/vendors/js/extensions/toastr.min.js') }}"></script>
         <script src="{{asset('app-assets/dropify/js/dropify.min.js') }}"></script>
@@ -119,7 +120,7 @@
         $("#contact").inputmask({ mask: "(999) 999-9999" });
 $(":input").inputmask();
                     $('.summernote').summernote({
-                height: 450,
+                height: 150,
             });
         $(function () {
             $(".datepicker").datepicker({
