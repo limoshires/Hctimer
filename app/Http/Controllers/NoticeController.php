@@ -42,7 +42,7 @@ class NoticeController extends Controller
 $id=Auth::user()->id;
 // dd($id);
          $addVal = new Notice;
-            $addVal->user_id = '1';
+            $addVal->user_id = $id;
             $addVal->title = $request->title;
             $addVal->start_date = $request->from_date;
             $addVal->end_date=$request->to_date;
