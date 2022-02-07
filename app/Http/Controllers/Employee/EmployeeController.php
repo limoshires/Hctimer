@@ -22,6 +22,15 @@ class EmployeeController extends Controller
 
         return view('Employee.dashboard', $user_atten);
     }
+
+
+        public function Noticesshow()
+    {
+
+
+        return view('Employee.notices');
+    }
+
     public function attendance_history()
     {
         $user_id = Auth::user()->id;

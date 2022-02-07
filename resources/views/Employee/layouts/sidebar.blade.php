@@ -46,7 +46,11 @@
                         <i class="feather icon-clock"></i>
                         <span class="menu-title" data-i18n="services">Processed Payroll</span></a>
             </li>
-
+    <li class={{ Request::is('employee/notices')? 'active' : '' }}>
+                    <a href="{{route('employee.notices')}}">
+                        <i class="feather icon-edit"></i>
+                        <span class="menu-title" data-i18n="services">Noticeboard</span></a>
+            </li>
 
                  <li class=" nav-item"><a href="#"><i class="feather icon-layout"></i><span class="menu-title" data-i18n="Content">Holidays</span></a>
                     <ul class="menu-content">

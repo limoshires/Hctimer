@@ -473,5 +473,101 @@ class AdminController extends Controller
         ]);
 
         return redirect()->back()->with('message', 'payrol Deduction successfully Add');
+    }   
+    public function admin_attendance(Request $request)
+    {
+        // dd($request->start_time, $request->end_time,$request->date);
+        //    $todayDate = Carbon::now()->format('d-m-Y');
+        // // $c_time='05:4:10 PM';
+        // $c_date = date('Y-m-d');
+        // $c_time = date('h:i:s A');
+
+        $start_time = date('h:i:s A', strtotime($request->start_time));
+        $end_time = date('h:i:s A', strtotime($request->end_time));
+
+
+        $startTime = Carbon::parse($start_time);
+        $endTime = Carbon::parse($end_time);
+
+        $totalDuration =  $startTime->diff($endTime)->format('%H:%I:%S');
+        // dd($totalDuration);
+    $d = explode(':', $totalDuration);
+        $simplework = ($d[0] * 3600) + ($d[1] * 60) + $d[2];
+        $total_time_seconds = Carbon::parse($request->start_time)->diffInSeconds($endTime);
+
+
+        $total_seconds = $total_time_seconds - 28800;
+        $add_overtime_after_approve = $total_time_seconds - $total_seconds;
+        $after = gmdate("H:i:s", $add_overtime_after_approve);
+           $overtime = gmdate("H:i:s", $total_seconds);
+ $In_time_update = new Attendence();
+
+    $check_atten_one_time = Attendence::where('user_id', $request->user)->where('date',$request->date)->first();
+        if ($check_atten_one_time==null) {
+            if ($total_time_seconds >= 28800) {
+                $In_time_update->user_id = $request->user;
+                 $In_time_update->start_time = $start_time;
+                $In_time_update->end_time = $end_time;
+                $In_time_update->date = $request->date;
+                $In_time_update->work_time = $after;
+                $In_time_update->overtime = $overtime;
+                $In_time_update->total_hours = $total_time_seconds;
+                $In_time_update->work_and_overtime = $add_overtime_after_approve;
+                $In_time_update->status = 0;
+                $In_time_update->save();
+            } else {
+                $In_time_update->user_id = $request->user;     
+                 $In_time_update->start_time = $start_time;
+                $In_time_update->end_time = $end_time;
+                $In_time_update->date = $request->date;
+                $In_time_update->work_time = $totalDuration;
+                $In_time_update->overtime = '00:00:00';
+                $In_time_update->total_hours = $total_time_seconds;
+                $In_time_update->work_and_overtime = $simplework;
+                $In_time_update->status = 0;
+                $In_time_update->save();
+            }
+            return redirect()->back()->with('message', 'Your attendance successfully!');
+        } else {
+            return redirect()->back()->with('error', 'Your attendance Already Done!');
+        }
+
+
+
+
     }
+
+    public function attendance_search(Request $request)
+
+    {
+
+if ($request->start_date && $request->end_date && $request->department) {
+    $atten_emp['emp_atten'] = DB::table('attendences')->where('date', '>=', $request->start_date)
+    ->where('date', '<=', $request->end_date)->when('user', function ($query) use ($request) {
+            return $query->where('department',$request->department);
+           })
+            ->leftjoin('users', 'users.id', '=', 'attendences.user_id')
+            ->select('users.first_name', 'attendences.*')->orderBy('date', 'DESC')->get();
+    //  dd($atten_emp);
+    //dd($atten_emp['emp_atten']);
+    return view('Admin.attendance_history', $atten_emp);
+
+}
+
+
+
+if ($request->start_date && $request->end_date ) {
+    $atten_emp['emp_atten'] = DB::table('attendences')->where('date', '>=', $request->start_date)->where('date', '<=', $request->end_date)
+            ->leftjoin('users', 'users.id', '=', 'attendences.user_id')
+            ->select('users.first_name', 'attendences.*')->orderBy('date', 'DESC')->get();
+    //  dd($atten_emp);
+    //dd($atten_emp['emp_atten']);
+    return view('Admin.attendance_history', $atten_emp);
+}
+
+
+
+    }
+
+
 }

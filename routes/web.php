@@ -44,6 +44,9 @@ Route::prefix('admin')->middleware('admin')->namespace('App\\Http\\Controllers\\
     Route::post('employee/{id}/update', 'AdminController@employeeUpdate')->name('admin.employeeUpdate');
     Route::post('employees', 'AdminController@employeeStore')->name('admin.employeeStore');
     Route::get('attendance_history', 'AdminController@attendance_history')->name('admin.attendance_history');
+     Route::get('attendance/search', 'AdminController@attendance_search')->name('admin.attendance_search');
+        Route::post('admin/add/attendance', 'AdminController@admin_attendance')->name('admin.add.admin_attendance');
+
     Route::get('attent_status_disapprove/{id}', 'AdminController@attent_status_disapprove')->name('admin.attent_status_disapprove');
     Route::get('attent_status_approve/{id}', 'AdminController@attent_status_approve')->name('admin.attent_status_approve');
 
@@ -140,6 +143,10 @@ Route::prefix('employee')->namespace('App\\Http\\Controllers\\Employee')->group(
     Route::get('attendance_history', 'EmployeeController@attendance_history')->name('employee.attendance_history');
     Route::get('user_processed_payroll', 'EmployeeController@user_processed_payroll')->name('employee.user_processed_payroll');
     Route::get('user_processed_payroll', 'EmployeeController@user_processed_payroll')->name('employee.user_processed_payroll');
+
+    Route::get('notices', 'EmployeeController@Noticesshow')->name('employee.notices');
+
+
 });
 
 

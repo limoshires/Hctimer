@@ -156,7 +156,7 @@ New                  </button>
           </button>
         </div>
         <div class="modal-body">
-            <form action="{{route('admin.admin_attendance')}}" method="post">
+            <form action="{{route('admin.add.admin_attendance')}}" method="post">
                 @csrf
               <div class="form-group">
                 <label for="first-name-icon">Select Date</label>
